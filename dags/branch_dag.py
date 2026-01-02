@@ -25,7 +25,7 @@ follow_branch_a = EmptyOperator(task_id="follow_branch_a", dag=dag)
 
 branch_false = EmptyOperator(task_id="branch_false", dag=dag)
 
-join = EmptyOperator(task_id="join", dag=dag)
+join = EmptyOperator(task_id="join", trigger_rule="one_done" ,dag=dag)
 
 run_this_first >> branching
 branching >> branch_a >> follow_branch_a >> join
