@@ -1,2 +1,4 @@
 *.env
 airflow.env
+
+*.log
