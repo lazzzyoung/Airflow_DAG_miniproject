@@ -5,7 +5,7 @@ from airflow.operators.python import PythonOperator, BranchPythonOperator
 from datetime import datetime
 
 dag = DAG(
-    dag_id="branch_example",
+    dag_id="branch_dag",
     schedule="@once",
     start_date=datetime(2024, 12, 1)
 )
