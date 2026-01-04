@@ -2,3 +2,12 @@
 airflow.env
 
 *.log
+
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.venv/
+venv/
+env/

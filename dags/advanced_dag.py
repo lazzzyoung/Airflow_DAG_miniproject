@@ -2,11 +2,12 @@ from airflow import DAG
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator, BranchPythonOperator
+from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
 from datetime import datetime
 import random
 
 dag = DAG(
-    'branch_dag',
+    'advanced_dag',
     schedule_interval='0 9 * * *',
     start_date=datetime(2026,1,1),
     catchup=False,
@@ -64,9 +65,18 @@ final_task = PythonOperator(
     trigger_rule='all_done',
     python_callable=final_task,
     dag=dag
-
 )
+slack_notify = SlackWebhookOperator(
+    task_id="slack_alert_task",
+    slack_webhook_conn_id="slack_conn",
+    trigger_rule='all_done',
+    message="DAG 작업 완료",
+    channel="#airflow",
+    dag=dag
+)
+
+
 
 start_task >> branch_task
 branch_task >> [high_task, low_task]
-[high_task,low_task] >> final_task
+[high_task,low_task] >> slack_notify >> final_task
